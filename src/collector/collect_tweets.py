@@ -50,5 +50,5 @@ while True:
         })
         print("Collected tweet : " + tweet.id)
     
-    time.sleep(10)
+    time.sleep(5)
     

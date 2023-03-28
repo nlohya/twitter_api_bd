@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transition-modal {
+  transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.rotate-spinner {
+  animation: 2s linear infinite rotate;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html,
+body {
+  @apply w-full h-full bg-twitter;
+}
