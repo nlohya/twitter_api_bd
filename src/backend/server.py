@@ -73,9 +73,13 @@ async def _():
    tw_list = []
    tweets = DB.get_collection().aggregate([ { "$sample": { "size": 10 } } ])
    for tweet in tweets:
+
+      user = api.get_user(user_id=tweet["author_id"]).data
+
       tw_list.append({
             "tweet_id": tweet["tweet_id"],
             "author_id": tweet["author_id"],
+            "author": user.name,
             "lang": tweet["lang"],
             "date": tweet["date"],
             "prob_sensitive": tweet["prob_sensitive"],
@@ -98,6 +102,8 @@ async def _():
    for twi in range(len(search.data)):
       tweet = search.data[twi]
 
+      user = api.get_user(user_id=tweet.author_id).data
+
       for tw in tw_list:
          if tw["tweet_id"] == tweet.id or tw["text"] == tweet.text:
             continue
@@ -105,6 +111,7 @@ async def _():
       tw_list.append({
          "tweet_id": tweet.id,
          "author_id": tweet.author_id,
+         "author": user.name,
          "lang": tweet.lang,
          "date": tweet.created_at,
          "prob_sensitive": tweet.possibly_sensitive,

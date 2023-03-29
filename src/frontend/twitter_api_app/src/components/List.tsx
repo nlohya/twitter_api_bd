@@ -10,8 +10,14 @@ import Loader from "../assets/icons/Loader";
 
 type Tweet = {
   tweet_id: string;
+  author: string;
   date: string;
   text: string;
+  metrics: {
+    like: string;
+    rt: string;
+    reply: string;
+  };
 };
 
 const List = () => {
@@ -29,11 +35,11 @@ const List = () => {
 
   async function fetchTweets() {
     setTweets([]);
+    setLoading(true);
     API.get(`tweets/${currentSource}`)
       .then((resp) => {
-        if (resp.data.tweets.length == 0) setLoading(false);
         setTweets(resp.data.tweets);
-        console.log(resp.data.tweets);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }
@@ -42,11 +48,6 @@ const List = () => {
     event.preventDefault();
     fetchTweets();
   }
-
-  useEffect(() => {
-    if (tweets.length > 0) setLoading(false);
-    else setLoading(true);
-  }, [tweets]);
 
   return (
     <div className="container max-w-2xl mx-auto text-white px-4">
@@ -88,17 +89,30 @@ const List = () => {
       {!loading && (
         <div>
           {tweets.map((tweet: Tweet) => (
-            <a
-              href={`https://twitter.com/i/status/${tweet.tweet_id}`}
-              target="_blank"
+            <div
               key={tweet.tweet_id}
               className="my-4 bg-twitter-blue border-white border-2 p-4 mx-auto rounded-lg shadow-xl block hover:scale-105 duration-200 hover:my-5"
             >
               <p className="font-bold">
                 Date : {new Date(tweet.date).toLocaleDateString("fr-FR")}
               </p>
+              <p className="font-bold">Auteur : {tweet.author}</p>
               <p>Tweet : {tweet.text}</p>
-            </a>
+              <div className="flex items-center justify-between gap-4">
+                <ul className="mt-2 flex items-center gap-4 bg-white rounded-lg p-1 text-black px-2">
+                  <li>👍 {tweet.metrics.like}</li>
+                  <li>🔁 {tweet.metrics.rt}</li>
+                  <li>🗨️ {tweet.metrics.reply}</li>
+                </ul>
+                <a
+                  href={`https://twitter.com/i/status/${tweet.tweet_id}`}
+                  target="_blank"
+                  className="hover:underline underline-offset-4"
+                >
+                  Voir le tweet ➡️
+                </a>
+              </div>
+            </div>
           ))}
         </div>
       )}
