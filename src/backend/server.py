@@ -43,9 +43,12 @@ async def _():
             "tweet_id": tweet.id
         })): continue
 
+        user = api.get_user(user_id=tweet.author_id).data
+
         DB.get_collection().insert_one({
             "tweet_id": tweet.id,
             "author_id": tweet.author_id,
+            "author": user.name,
             "lang": tweet.lang,
             "date": tweet.created_at,
             "prob_sensitive": tweet.possibly_sensitive,
@@ -74,12 +77,10 @@ async def _():
    tweets = DB.get_collection().aggregate([ { "$sample": { "size": 10 } } ])
    for tweet in tweets:
 
-      user = api.get_user(user_id=tweet["author_id"]).data
-
       tw_list.append({
             "tweet_id": tweet["tweet_id"],
             "author_id": tweet["author_id"],
-            "author": user.name,
+            "author": tweet["author"],
             "lang": tweet["lang"],
             "date": tweet["date"],
             "prob_sensitive": tweet["prob_sensitive"],
