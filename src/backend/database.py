@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-from pytwitter import Api
 import os
 from dotenv import load_dotenv
 

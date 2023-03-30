@@ -1,13 +1,14 @@
-import json
 import uvicorn
 from fastapi import FastAPI
-from pymongo import MongoClient
 from pytwitter import Api
 import time
 from database import DB
 import os
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from pydantic import BaseModel
+import requests
 
 load_dotenv()
 
@@ -126,6 +127,28 @@ async def _():
       time.sleep(0.3)
    
    return {"tweets" : tw_list}
+
+class AnalyzeBody(BaseModel):
+   text: str
+
+@app.post(get_url("/analyze"))
+async def _(body: AnalyzeBody):
+
+   resp = requests.get(
+      "https://api-free.deepl.com/v2/translate",
+      params={ 
+         "auth_key": os.getenv('DEEPL_TOKEN'), 
+         "target_lang": "en", 
+         "text": body.text, 
+      }, 
+   )
+
+   translated = resp.json()
+
+   sid = SentimentIntensityAnalyzer()
+   ss = sid.polarity_scores(translated["translations"][0]["text"])
+
+   return {"result": ss}
 
 
 
