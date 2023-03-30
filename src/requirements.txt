@@ -1,4 +1,7 @@
 uvicorn
 fastapi
 pytwitter
+pymongo
 nltk
+pydantic
+requests

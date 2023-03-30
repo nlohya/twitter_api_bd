@@ -8,7 +8,7 @@
   - Installer Python 3.X
   - Installer NodeJS (LTS)
   - Installer MongoDB
-- Installer les bibliothèques Python présentes dans le fichier `src/requirements.txt`
+- Installer les bibliothèques Python présentes dans le fichier `src/requirements.txt`, un par un ou avec la commande `pip install -r requirements.txt`
 - Executer dans une console Python les commandes `import nltk` et `nltk.download('all')`
 - Créer un fichier `.env` respectant le format suivant:
   - BEARER=< bearer token twitter >
