@@ -3,7 +3,7 @@ httplib2
 oauth2
 uvicorn
 fastapi
-python-twitter
+python-twitter-v2
 pymongo
 nltk
 pydantic
