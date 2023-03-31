@@ -185,7 +185,7 @@ const List = () => {
             {tweets.map((tweet: Tweet) => (
               <div
                 key={tweet.tweet_id}
-                className="my-4 bg-twitter-blue border-white border-2 p-4 mx-auto rounded-lg shadow-xl block duration-200"
+                className="my-4 bg-twitter-blue p-4 mx-auto rounded-lg shadow-xl block duration-200"
               >
                 <p className="font-bold">
                   Date : {new Date(tweet.date).toLocaleDateString("fr-FR")}
