@@ -4,6 +4,7 @@ oauth2
 uvicorn
 fastapi
 python-twitter-v2
+python-dotenv
 pymongo
 nltk
 pydantic
